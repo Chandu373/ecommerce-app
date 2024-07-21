@@ -7,7 +7,7 @@ import java.util.List;
 
 public record CustomerRequest(
 
-        int id,
+        Integer id,
         String name,
         String email,
         String mobile,

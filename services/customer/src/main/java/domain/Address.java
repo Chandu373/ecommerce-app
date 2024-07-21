@@ -17,7 +17,7 @@ public class Address {
 
     @GeneratedValue
     @Id
-    private int id;
+    private Integer id;
     private String streetNumber;
     private String zipCode;
     private String state;
