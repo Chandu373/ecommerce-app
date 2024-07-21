@@ -3,10 +3,7 @@ package controller;
 import domain.Customer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import record.CustomerRequest;
 import repository.CustomerRepository;
 import service.CustomerService;
@@ -24,5 +21,10 @@ public class CustomerController {
             return ResponseEntity.badRequest().build();
         }
         return ResponseEntity.ok(customerService.create(request));
+    }
+
+    @GetMapping("/{customer-id}")
+    public ResponseEntity<Customer> findById(@PathVariable(value = "customer-id") int customerId) {
+       return ResponseEntity.ok(customerService.findCustomerById(customerId));
     }
 }
