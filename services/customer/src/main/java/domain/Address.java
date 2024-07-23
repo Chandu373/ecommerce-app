@@ -1,12 +1,12 @@
 package domain;
 
-import jakarta.persistence.*;
-import jdk.jfr.Enabled;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.NoArgsConstructor;
-
-import java.util.List;
 
 @Builder
 @NoArgsConstructor
@@ -22,9 +22,4 @@ public class Address {
     private String zipCode;
     private String state;
     private String country;
-
-    @ManyToOne
-    @JoinColumn(name = "address_id", nullable = false)
-    Customer customers;
-
 }

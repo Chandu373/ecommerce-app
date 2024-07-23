@@ -7,14 +7,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import record.CustomerRequest;
-import repository.CustomerRepository;
+import record.CustomerResponse;
 import service.CustomerService;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1/customer")
 public class CustomerController {
 
-    private  static  final Logger log = LoggerFactory.getLogger(CustomerController.class);
+    private static final Logger log = LoggerFactory.getLogger(CustomerController.class);
 
     @Autowired
     private CustomerService customerService;
@@ -29,11 +31,23 @@ public class CustomerController {
 
     @GetMapping("/{customer-id}")
     public ResponseEntity<Customer> findById(@PathVariable(value = "customer-id") Integer customerId) {
-        if(customerId == null){
+        if (customerId == null) {
             log.error("please provide customer ID");
-            return  ResponseEntity.badRequest().build();
+            return ResponseEntity.badRequest().build();
         }
-       return ResponseEntity.ok(customerService.findCustomerById(customerId));
+        return ResponseEntity.ok(customerService.findCustomerById(customerId));
+    }
+
+    @GetMapping("/customers")
+    public ResponseEntity<List<CustomerResponse>> findAll() {
+        return ResponseEntity.ok(customerService.findAllCustomers());
+    }
+
+    @DeleteMapping("/delete/{customer-id}")
+    public ResponseEntity<Void> delete(@PathVariable("customer-id") Integer customerId) {
+        customerService.deleteCustomerById(customerId);
+        return ResponseEntity.accepted().build();
+
     }
 
 

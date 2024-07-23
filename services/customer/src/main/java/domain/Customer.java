@@ -1,10 +1,11 @@
 package domain;
 
-import jakarta.persistence.*;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
-
-import java.util.List;
 
 @Builder
 @NoArgsConstructor
@@ -23,7 +24,5 @@ public class Customer {
     private String email;
     @NonNull
     private String mobile;
-
-    @OneToMany(mappedBy = "address")
-    private List<Address> address;
+    private Address address;
 }

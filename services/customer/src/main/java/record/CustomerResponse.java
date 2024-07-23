@@ -2,9 +2,7 @@ package record;
 
 import domain.Address;
 
-
-public record CustomerRequest(
-
+public record CustomerResponse(
         Integer id,
         String name,
         String email,

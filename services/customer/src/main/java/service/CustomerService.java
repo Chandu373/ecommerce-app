@@ -5,9 +5,11 @@ import mapper.CustomerMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import record.CustomerRequest;
+import record.CustomerResponse;
 import repository.CustomerRepository;
 
-import java.util.Optional;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class CustomerService {
@@ -28,5 +30,16 @@ public class CustomerService {
     public Customer findCustomerById(Integer customerId) {
         return customerRepository.findById(customerId)
                 .orElseThrow(() -> new RuntimeException("Customer not found"));
+    }
+
+    public List<CustomerResponse> findAllCustomers() {
+        return customerRepository.findAll()
+                .stream()
+                .map(mapper::fromCustomer)
+                .collect(Collectors.toList());
+    }
+
+    public void deleteCustomerById(Integer customerId) {
+        customerRepository.deleteById(customerId);
     }
 }
