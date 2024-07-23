@@ -20,6 +20,7 @@ public class CustomerService {
     public String create(CustomerRequest request) {
 
         Customer customer = mapper.toCustomer(request);
+        customerRepository.save(customer);
         // need  to save  the  customer
         return customer.getName();
     }
