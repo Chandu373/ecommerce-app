@@ -24,7 +24,7 @@ public class CustomerService {
         Customer customer = mapper.toCustomer(request);
         customerRepository.save(customer);
         // need  to save  the  customer
-        return customer.getName();
+        return  null;
     }
 
     public Customer findCustomerById(Integer customerId) {
