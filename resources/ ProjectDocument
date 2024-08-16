@@ -1,1 +1,12 @@
-config-server  port = 8888
+TODO config-service
+port : 8888
+
+TODO discovery-service :  connect to config-server
+port : 8761
+  dep:  config-client
+        eureka server
+
+TODO  customer-service
+port: 8090
+dep: config-client
+     eureka-discovery-client
