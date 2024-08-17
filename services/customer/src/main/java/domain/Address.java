@@ -7,12 +7,14 @@ import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.NoArgsConstructor;
+import org.springframework.validation.annotation.Validated;
 
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
 @Table(name = "ADDRESS")
+@Validated
 public class Address {
 
     @GeneratedValue

@@ -18,11 +18,12 @@ public class Customer {
     @GeneratedValue
     @Id
     private int id;
-    @NonNull
+    @NotNull
     private String name;
     @NotNull
     private String email;
-    @NonNull
+    @NotNull
     private String mobile;
+
     private Address address;
 }

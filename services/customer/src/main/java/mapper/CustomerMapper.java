@@ -1,21 +1,24 @@
 package mapper;
 
 import domain.Customer;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 import record.CustomerRequest;
 import record.CustomerResponse;
 
-@Component
+@Service
 public class CustomerMapper {
 
     public Customer toCustomer(CustomerRequest request) {
-        return new Customer(
-                request.id(),
-                request.name(),
-                request.email(),
-                request.mobile(),
-                request.address()
-        );
+        if(request == null){
+            return   null;
+        }
+       return Customer.builder()
+               .id(request.id())
+               .name(request.name())
+               .email(request.email())
+               .mobile(request.mobile())
+               .address(request.address())
+               .build();
     }
 
 

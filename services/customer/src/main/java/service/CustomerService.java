@@ -1,7 +1,10 @@
 package service;
 
 import domain.Customer;
+import exception.CustomerNotFoundException;
+import jakarta.validation.Valid;
 import mapper.CustomerMapper;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import record.CustomerRequest;
@@ -15,7 +18,7 @@ import java.util.stream.Collectors;
 public class CustomerService {
 
     @Autowired
-    private CustomerRepository customerRepository;
+    private  CustomerRepository customerRepository;
     @Autowired
     private CustomerMapper mapper;
 
@@ -27,9 +30,10 @@ public class CustomerService {
         return  null;
     }
 
-    public Customer findCustomerById(Integer customerId) {
+    public CustomerResponse findCustomerById(Integer customerId) {
         return customerRepository.findById(customerId)
-                .orElseThrow(() -> new RuntimeException("Customer not found"));
+                .map(mapper::fromCustomer)
+                .orElseThrow(()-> new CustomerNotFoundException(String.format("Customer Not Found ID :: %s",customerId)));
     }
 
     public List<CustomerResponse> findAllCustomers() {
@@ -41,5 +45,35 @@ public class CustomerService {
 
     public void deleteCustomerById(Integer customerId) {
         customerRepository.deleteById(customerId);
+    }
+
+    public void updateCustomer(@Valid CustomerRequest request) {
+        if(request != null){
+            Customer customer = customerRepository.findById(request.id())
+                    .orElseThrow(()-> new CustomerNotFoundException(
+                            String.format("Customer not found  for this ID :: %s",request.id())
+                    ));
+            mergerCustomer(customer,request);
+            customerRepository.save(customer);
+        }
+    }
+
+    private void mergerCustomer(Customer customer, @Valid CustomerRequest request) {
+        if(StringUtils.isNotBlank(request.name()))
+        {
+            customer.setName(request.name());
+        }
+        if(StringUtils.isNotBlank(request.email()))
+        {
+            customer.setEmail(request.email());
+        }
+        if(StringUtils.isNotBlank(request.mobile()))
+        {
+            customer.setMobile(request.mobile());
+        }
+        if(request.address() != null)
+        {
+            customer.setAddress(request.address());
+        }
     }
 }

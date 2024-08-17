@@ -1,6 +1,7 @@
 package controller;
 
 import domain.Customer;
+import jakarta.validation.Valid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,11 +23,16 @@ public class CustomerController {
     private CustomerService customerService;
 
     @PostMapping("/save")
-    public ResponseEntity<String> save(@RequestBody CustomerRequest request) {
+    public ResponseEntity<String> save(@RequestBody @Valid CustomerRequest request) {
         if (request == null) {
             return ResponseEntity.badRequest().build();
         }
         return ResponseEntity.ok(customerService.create(request));
+    }
+
+    public ResponseEntity<Void>  update(@RequestBody @Valid CustomerRequest request){
+        customerService.updateCustomer(request);
+        return  ResponseEntity.accepted().build();
     }
 
     @GetMapping("/{customer-id}")
