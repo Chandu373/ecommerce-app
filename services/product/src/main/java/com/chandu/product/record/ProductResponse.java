@@ -10,6 +10,8 @@ public record ProductResponse(
         String description,
         double availableQuantity,
         BigDecimal price,
-        Category category
+        Integer categoryId,
+        String categoryName,
+        String categoryDescription
 ) {
 }

@@ -10,3 +10,8 @@ TODO  customer-service
 port: 8090
 dep: config-client
      eureka-discovery-client
+
+TODO product-service need  to add the DataBase
+port: 8050
+
+

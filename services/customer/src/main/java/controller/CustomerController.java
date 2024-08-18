@@ -36,7 +36,7 @@ public class CustomerController {
     }
 
     @GetMapping("/{customer-id}")
-    public ResponseEntity<Customer> findById(@PathVariable(value = "customer-id") Integer customerId) {
+    public ResponseEntity<CustomerResponse> findById(@PathVariable(value = "customer-id") Integer customerId) {
         if (customerId == null) {
             log.error("please provide customer ID");
             return ResponseEntity.badRequest().build();

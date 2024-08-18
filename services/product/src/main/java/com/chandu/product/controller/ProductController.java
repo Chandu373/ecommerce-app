@@ -1,9 +1,12 @@
 package com.chandu.product.controller;
 
 import com.chandu.product.domain.Product;
+import com.chandu.product.record.ProductPurchaseRequest;
+import com.chandu.product.record.ProductPurchaseResponse;
 import com.chandu.product.record.ProductRequest;
 import com.chandu.product.record.ProductResponse;
 import com.chandu.product.service.ProductService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -12,11 +15,16 @@ import java.util.List;
 @RequestMapping("/api/v1/product")
 public class ProductController {
 
+    @Autowired
     private ProductService productService ;
 
     @PostMapping("/create")
-    public ResponseEntity<Product> create(@RequestBody ProductRequest productRequest){
-       return ResponseEntity.ok(productService.save(productRequest));
+    public ResponseEntity<Product> create(@RequestBody ProductRequest request){
+       return ResponseEntity.ok(productService.save(request));
+    }
+
+    public ResponseEntity<List<ProductPurchaseResponse>> purchaseProducts(@RequestBody List<ProductPurchaseRequest> request){
+        return ResponseEntity.ok(productService.purchaseProducts(request));
     }
 
     @GetMapping("/products")
@@ -25,23 +33,19 @@ public class ProductController {
     }
 
 
-    @GetMapping("/find/{product-id}")
-    public ResponseEntity<Product> findByID(@PathVariable(value = "product-id") Integer productId){
-        if(productId > 0){
-            return ResponseEntity.ok(productService.findProductById(productId));
-        }else {
-            return ResponseEntity.badRequest().build();
-        }
+    @GetMapping("/{product-id}")
+    public ResponseEntity<ProductResponse> findByID(@PathVariable(value = "product-id") Integer productId){
+        return ResponseEntity.ok(productService.findProductById(productId));
     }
 
     @DeleteMapping("/delete/{product-id}")
-    public ResponseEntity<Void> deleteById(@PathVariable(value = "product-id") Integer productId){
-        if(productId > 0){
-            productService.deleteProduct(productId);
-            return ResponseEntity.ok().build();
-        }else{
-            return ResponseEntity.notFound().build();
-        }
+    public ResponseEntity<Void> delete(@PathVariable(value = "product-id") Integer productId){
+        productService.deleteProduct(productId);
+        return ResponseEntity.ok().build();
     }
 
+    @GetMapping("/ping")
+    public ResponseEntity<String> ping(){
+        return ResponseEntity.ok("success");
+    }
 }
