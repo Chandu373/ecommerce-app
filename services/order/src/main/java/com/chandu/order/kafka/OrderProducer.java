@@ -1,6 +1,5 @@
 package com.chandu.order.kafka;
 
-import com.chandu.order.domain.Order;
 import com.chandu.order.record.OrderConfirmation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -18,7 +17,7 @@ public class OrderProducer {
     private  final KafkaTemplate<String, OrderConfirmation> kafkaTemplate;
 
     public void sendOderConfirmation(OrderConfirmation orderConfirmation){
-        log.info("Sending order Confirmation");
+        log.info("Sending order Confirmation {}", orderConfirmation);
         Message<OrderConfirmation>  message = MessageBuilder
                 .withPayload(orderConfirmation)
                 .setHeader(KafkaHeaders.TOPIC,"order-topic")
