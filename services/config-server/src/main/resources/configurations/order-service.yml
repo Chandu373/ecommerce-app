@@ -1,0 +1,10 @@
+server:
+  port: 8070
+
+spring:
+  application:
+    name: order-service
+  config:
+    customer-url: http://localhost:8222/api/v1/customers # api GateWay port : 8222
+    payment-url: http://localhost:8222/api/v1/payments
+    product-url: http://localhost:8222/api/v1/products
