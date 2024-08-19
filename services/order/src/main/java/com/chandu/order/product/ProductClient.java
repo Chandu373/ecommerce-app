@@ -37,7 +37,7 @@ public class ProductClient {
         );
 
         if(responseEntity.getStatusCode().isError()){
-            throw  new BusinessException("error occurred while processing purchase product : "+responseEntity.getStatusCode());
+            throw  new BusinessException(String.format("error occurred while processing purchase product : "+responseEntity.getStatusCode()));
         }
         return responseEntity.getBody();
     }

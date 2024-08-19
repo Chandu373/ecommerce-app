@@ -2,6 +2,7 @@ package com.chandu.order.mapper;
 
 import com.chandu.order.domain.Order;
 import com.chandu.order.record.OrderRequest;
+import com.chandu.order.record.OrderResponse;
 import jakarta.validation.Valid;
 import org.springframework.stereotype.Service;
 
@@ -19,5 +20,15 @@ public class OrderMapper {
                .paymentMethod(request.paymentMethod())
                .customerId(request.customerId())
                .build();
+    }
+
+    public OrderResponse fromOrder(Order order){
+        return new OrderResponse(
+                order.getId(),
+                order.getReference(),
+                order.getTotalAmount(),
+                order.getPaymentMethod(),
+                order.getCustomerId()
+        );
     }
 }

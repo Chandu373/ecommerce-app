@@ -3,6 +3,7 @@ package com.chandu.order.mapper;
 import com.chandu.order.domain.Order;
 import com.chandu.order.domain.OrderLine;
 import com.chandu.order.record.OrderLineRequest;
+import com.chandu.order.record.OrderLineResponse;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -18,5 +19,12 @@ public class OrderLineMapper {
                         .build())
                 .productId(request.productId())
                 .build();
+    }
+
+    public OrderLineResponse toOrderLineResponse(OrderLine orderLine) {
+        return  new OrderLineResponse(
+                orderLine.getId(),
+                orderLine.getQuantity()
+        );
     }
 }
