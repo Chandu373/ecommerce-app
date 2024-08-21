@@ -56,5 +56,10 @@ public class CustomerController {
 
     }
 
+    @GetMapping("/ping")
+    public ResponseEntity<String> ping(){
+        return ResponseEntity.ok("success");
+    }
+
 
 }
