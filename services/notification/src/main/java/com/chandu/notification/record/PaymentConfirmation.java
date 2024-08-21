@@ -1,10 +1,10 @@
-package com.chandu.payment.record;
+package com.chandu.notification.record;
 
-import com.chandu.payment.enums.PaymentMethod;
+import com.chandu.notification.enums.PaymentMethod;
 
 import java.math.BigDecimal;
 
-public record PaymentNotificationRequest(
+public record PaymentConfirmation(
         String orderReference,
         BigDecimal amount,
         PaymentMethod paymentMethod,

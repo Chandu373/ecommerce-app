@@ -9,6 +9,5 @@ public record OrderLineRequest(
         @NotNull(message = "product is mandatory")
         Integer productId,
         @Positive(message = "Quantity  is mandatory")
-        double quantity
-) {
+        double quantity) {
 }

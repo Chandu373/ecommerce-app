@@ -1,10 +1,12 @@
 package com.chandu.order.service;
 
 import com.chandu.order.customer.CustomerClient;
+import com.chandu.order.domain.Order;
 import com.chandu.order.exception.BusinessException;
 import com.chandu.order.exception.OrderNotFoundException;
 import com.chandu.order.kafka.OrderProducer;
 import com.chandu.order.mapper.OrderMapper;
+import com.chandu.order.payment.PaymentClient;
 import com.chandu.order.product.ProductClient;
 import com.chandu.order.record.*;
 import com.chandu.order.repository.OrderRepository;
@@ -29,6 +31,8 @@ public class OrderService {
     private OrderProducer orderProducer;
     private CustomerClient customerClient;
     private ProductClient productClient;
+    private PaymentClient paymentClient;
+
 
     public Integer createOrder(@Valid OrderRequest request) {
         //check customer
@@ -43,14 +47,14 @@ public class OrderService {
         // persist order-line
         saveOrderLines(order.getId(),request.products());
 
-        // TODO start payment process
+        // start payment process
+        invokePaymentProcess(customer,request,order);
 
         // sent order confirmation notification broker(kafka)
         sendOrderConfirmation(customer,purchaseProducts,request);
 
         return order.getId();
     }
-
 
 
     private void saveOrderLines(Integer orderId, @NotEmpty(message = "you should at least purchase one product") List<PurchaseRequest> products) {
@@ -92,4 +96,16 @@ public class OrderService {
                 .orElseThrow(()-> new OrderNotFoundException(
                         String.format("Order not Found with provided ID: %s"+orderId)));
     }
+
+    private void invokePaymentProcess(CustomerResponse customer, @Valid OrderRequest request, Order order) {
+       PaymentRequest paymentRequest = new PaymentRequest(
+                request.amount(),
+                request.paymentMethod(),
+                order.getId(),
+                order.getReference(),
+                customer);
+       // calling payment-service
+       paymentClient.requestOrderPayment(paymentRequest);
+    }
+
 }
